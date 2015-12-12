@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="hackerEarthApp">
+<head>
+<meta charset="UTF-8">
+<title>Bootstrap 3 Responsive Layout Example</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="styles.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</head>
+<body ng-controller = "AppCtrl">
+<nav id="myNavbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" >HackerEarth - <span class="text-success"><em>Programming Problems Hub</em></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->        
+    </div>
+</nav>
+<br><br><br><br><br>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="input-group" style="padding-top:10px; padding-bottom:10px;">
+                <input type="text" class="form-control" placeholder="Search By Tag" ng-model="searchText">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+		</div>
+		<div class="col-md-4">
+			<div class ="panel panel-info panel-body">
+				Sort By &nbsp;&nbsp;
+				<label class="radio-inline">
+                    <input type="radio" name="sortFilter" ng-model="ratingFilter" value="-likes"> Likes
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="sortFilter" ng-model="ratingFilter" value="-rating"> Rating
+                </label>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class ="panel panel-info panel-body">
+				<strong>Total Likes : </strong> {{totalCount}}  <strong> | API Hits : </strong> {{apiHits}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6" ng-repeat="problem in problems|orderBy:ratingFilter|filter:searchText track by $index" ng-show="problem.name">
+			<div class="panel panel-info">
+				<div class="panel-heading">{{problem.name}}</div>
+				<div class="panel-body">
+					<div class="media">
+						<a href="#" class="pull-left">
+							<img ng-src={{problem.image}} class="media-object img-circle" alt="Sample Image" height="150px" width="150px">
+						</a>
+						<div class="media-body">
+							<p>Solved By : {{problem.solved_by}} &nbsp;| {{problem.rating}}&nbsp;<span star-rating rating-value="problem.rating" max="5"></span></p>
+							<p><i class="fa fa-home fa-lg"></i>&nbsp; {{problem.parent_challenge}}</p>
+							<p><i class="fa fa-tags fa-lg"></i>&nbsp; <span ng-repeat="tag in problem.tags">{{tag}} &nbsp;</span></p>
+							<p><i class="fa fa-link fa-lg"></i>&nbsp; <a href="{{problem.url}}" target="_blank">{{problem.name|lowercase|spacetodash}}</a></p>
+							<p>
+								<button type="button" class="btn btn-default btn-xs" ng-click="likeProblem($index)">
+									<i class="fa fa-thumbs-up fa-lg text-info"></i>&nbsp; {{problem.likes}}
+								</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>                                		
